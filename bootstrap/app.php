@@ -23,9 +23,10 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
+$app->withFacades();
 
-// $app->withEloquent();
+$app->withEloquent();
+$app->configure('configure');
 
 /*
 |--------------------------------------------------------------------------
@@ -78,10 +79,15 @@ $app->singleton(
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-
+$app->routeMiddleware([
+    'authHeader' => App\Http\Middleware\authHeader::class
+]);
+$app->middleware([
+    'setHeader' => App\Http\Middleware\setHeaders::class
+]);
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
